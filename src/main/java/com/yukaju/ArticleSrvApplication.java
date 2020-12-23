@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ArticleSrvApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ArticleSrvApplication.class, args);
+		//testing sonarcloud new code definition
 	}
 }
