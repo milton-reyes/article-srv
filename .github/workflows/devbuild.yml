@@ -13,7 +13,7 @@ env:
   ECR_REPO_NAME: ${{ secrets.ECR_REPO_NAME }}
   ECR_URI: ${{ secrets.ECR_URI }}
   IMAGE_TAG: ${{ github.sha }}
-  LEAVE_COMMENT_SRV_PORT: ${{ secrets.LEAVE_COMMENT_SRV_PORT }}
+  ARTICLE_SRV_PORT: ${{ secrets.ARTICLE_SRV_PORT }}
 jobs:
   build:
     name: CI to ECR
@@ -24,7 +24,7 @@ jobs:
       - name: Build and push
         id: docker_build
         run: |
-          docker build --build-arg ATB_SRV_P=${LEAVE_COMMENT_SRV_PORT} --build-arg ATB_U=${ATABEY_MASTER_U} --build-arg ATB_P=${ATABEY_MASTER_P} --build-arg ATB_URL=${ATABEY_URL} --build-arg ATB_DB_PORT=${ATABEY_DB_PORT} --build-arg ATB_DB_NAME=${ATABEY_DB_NAME} -t $ECR_URI/$ECR_REPO_NAME:$IMAGE_TAG .
+          docker build --build-arg ATB_SRV_P=${ARTICLE_SRV_PORT} --build-arg ATB_U=${ATABEY_MASTER_U} --build-arg ATB_P=${ATABEY_MASTER_P} --build-arg ATB_URL=${ATABEY_URL} --build-arg ATB_DB_PORT=${ATABEY_DB_PORT} --build-arg ATB_DB_NAME=${ATABEY_DB_NAME} -t $ECR_URI/$ECR_REPO_NAME:$IMAGE_TAG .
           docker tag $ECR_URI/$ECR_REPO_NAME:$IMAGE_TAG $ECR_URI/$ECR_REPO_NAME:latest
   analyze:
     needs: [build]
