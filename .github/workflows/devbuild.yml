@@ -1,0 +1,57 @@
+name: CI/CD
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+env:
+  ATABEY_DB_NAME: ${{ secrets.ATABEY_DB_NAME }}
+  ATABEY_DB_PORT: ${{ secrets.ATABEY_DB_PORT }}
+  ATABEY_MASTER_U: ${{ secrets.ATABEY_MASTER_U }}
+  ATABEY_MASTER_P: ${{ secrets.ATABEY_MASTER_P }}
+  ATABEY_URL: ${{ secrets.ATABEY_URL }}
+  ECR_REPO_NAME: ${{ secrets.ECR_REPO_NAME }}
+  ECR_URI: ${{ secrets.ECR_URI }}
+  IMAGE_TAG: ${{ github.sha }}
+  LEAVE_COMMENT_SRV_PORT: ${{ secrets.LEAVE_COMMENT_SRV_PORT }}
+jobs:
+  build:
+    name: CI to ECR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+      - name: Build and push
+        id: docker_build
+        run: |
+          docker build --build-arg ATB_SRV_P=${LEAVE_COMMENT_SRV_PORT} --build-arg ATB_U=${ATABEY_MASTER_U} --build-arg ATB_P=${ATABEY_MASTER_P} --build-arg ATB_URL=${ATABEY_URL} --build-arg ATB_DB_PORT=${ATABEY_DB_PORT} --build-arg ATB_DB_NAME=${ATABEY_DB_NAME} -t $ECR_URI/$ECR_REPO_NAME:$IMAGE_TAG .
+          docker tag $ECR_URI/$ECR_REPO_NAME:$IMAGE_TAG $ECR_URI/$ECR_REPO_NAME:latest
+  analyze:
+    needs: [build]
+    name: Test Code and Analyze Quality CI SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
