@@ -13,7 +13,7 @@ import com.yukaju.dtos.ArticleDto;
 import com.yukaju.exceptions.InvalidArticleException;
 
 @SpringBootTest
-public class ContentControllerTest {
+class ContentControllerTest {
 	
 	@Autowired
 	ContentController controller;
@@ -22,7 +22,7 @@ public class ContentControllerTest {
 	private String exceptionMsg;
 	
 	
-	public String getExceptionMsg() {
+	String getExceptionMsg() {
 		return exceptionMsg;
 	}
 
@@ -31,12 +31,12 @@ public class ContentControllerTest {
 	}
 
 	@Test
-	public void contextLoads() throws Exception {
+	void contextLoads() throws Exception {
 		assertThat(controller).isNotNull();
 	}
 	
 	@Test
-	public void exceedingMaxCharsAllowedContentField_throwsException() throws InvalidArticleException {
+	void exceedingMaxCharsAllowedContentField_throwsException() throws InvalidArticleException {
 		
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
@@ -60,7 +60,7 @@ public class ContentControllerTest {
 	}
 	
 	@Test
-	public void exceedingMaxCharsAllowedRichTextField_throwsException() throws InvalidArticleException {
+	void exceedingMaxCharsAllowedRichTextField_throwsException() throws InvalidArticleException {
 		
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
@@ -85,7 +85,7 @@ public class ContentControllerTest {
 	}
 	
 	@Test
-	public void exceedingMaxCharsAllowedImgField_throwsException() throws InvalidArticleException {
+	void exceedingMaxCharsAllowedImgField_throwsException() throws InvalidArticleException {
 		
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
@@ -111,7 +111,7 @@ public class ContentControllerTest {
 	}
 	
 	@Test
-	public void exceedingMaxCharsAllowedTitleField_throwsException() throws InvalidArticleException {
+	void exceedingMaxCharsAllowedTitleField_throwsException() throws InvalidArticleException {
 		
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
@@ -137,7 +137,7 @@ public class ContentControllerTest {
 	}
 	
 	@Test
-	public void exceedingMaxCharsAllowedValueField_throwsException() throws InvalidArticleException {
+	void exceedingMaxCharsAllowedValueField_throwsException() throws InvalidArticleException {
 		
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {

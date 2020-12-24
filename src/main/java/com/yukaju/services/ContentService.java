@@ -1,5 +1,6 @@
 package com.yukaju.services;
 
+import java.time.LocalDateTime;
 //import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,20 +26,8 @@ public class ContentService {
 	}
 	
 	public Article addArticle(Article article) {
+		article.setArticleDate(LocalDateTime.now());
 		return articleRepo.save(article);
 	}
-	
-	/*
-	public Article addArticle(Article article) {
-		if (article.getRichtext() != null && article.getTitle() != null) {
-			if (article.getArticleDate() == null) {
-				article.setArticleDate(LocalDateTime.now());
-			}
-			return articleRepo.save(article);
-		}
-		return article;
-		
-	}
-	*/
 
 }

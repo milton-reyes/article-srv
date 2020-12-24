@@ -21,7 +21,6 @@ import com.yukaju.models.Article;
 import com.yukaju.services.ContentService;
 
 @RestController
-//@RequestMapping("/topics")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.PUT, RequestMethod.PATCH,
 		RequestMethod.POST }, allowedHeaders = { "*" })
 public class ContentController {
@@ -41,8 +40,6 @@ public class ContentController {
 			return ResponseEntity.ok().body(article.get());
 		} else {
 			return ResponseEntity.notFound().build();
-			// throw new HttpStatusException(404, "Article with id of " + articleId + " was
-			// not found.");
 		}
 	}
 
