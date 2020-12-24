@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -37,7 +38,8 @@ class ContentControllerTest {
 	@Autowired
 	MockMvc mockMvc;
 	
-	@MockBean
+	//@MockBean
+	@Autowired
 	ContentService serivce;
 	
 	String emptyMsg = "Cannot leave empty.";
@@ -67,10 +69,25 @@ class ContentControllerTest {
 	}
 	
 	@Test
-	void shouldReturnJsonArticleList() throws Exception {
+	void shouldReturnJsonArticlesList() throws Exception {
 		MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON)).andReturn();
 		
 		assertEquals(200, result.getResponse().getStatus());
+	}
+	
+	@Test
+	void shouldReturnOk() throws Exception {
+		ResponseEntity res = controller.getArticleById(1);
+		//MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/articles/2").accept(MediaType.APPLICATION_JSON)).andReturn();
+		
+		assertEquals(200, res.getStatusCode().value());
+	}
+	
+	@Test
+	void shouldReturnNotFound() throws Exception {
+		MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/articles/4").accept(MediaType.APPLICATION_JSON)).andReturn();
+		
+		assertEquals(404, result.getResponse().getStatus());
 	}
 	
 	@Test
