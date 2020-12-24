@@ -78,7 +78,6 @@ class ContentControllerTest {
 	@Test
 	void shouldReturnOk() throws Exception {
 		ResponseEntity res = controller.getArticleById(1);
-		//MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/articles/2").accept(MediaType.APPLICATION_JSON)).andReturn();
 		
 		assertEquals(200, res.getStatusCode().value());
 	}
@@ -95,7 +94,7 @@ class ContentControllerTest {
 		
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
 			
-			for (int i = 0; i < 22999; i++) {
+			for (int i = 0; i < 19999; i++) {
 				strBld.append("0");
 			}
 			artDto.setContent(strBld.toString());
@@ -117,7 +116,7 @@ class ContentControllerTest {
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
 			
-			for (int i = 0; i < 22999; i++) {
+			for (int i = 0; i < 19999; i++) {
 				strBld.append("0");
 			}
 			artDto.setContent("test article content");
@@ -140,7 +139,7 @@ class ContentControllerTest {
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
 			
-			for (int i = 0; i < 255; i++) {
+			for (int i = 0; i < 254; i++) {
 				strBld.append("0");
 			}
 			artDto.setImg(strBld.toString());
@@ -164,7 +163,7 @@ class ContentControllerTest {
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
 		
-			for (int i = 0; i < 255; i++) {
+			for (int i = 0; i < 254; i++) {
 				strBld.append("0");
 			}
 			artDto.setTitle(strBld.toString());
@@ -188,7 +187,7 @@ class ContentControllerTest {
 
 		InvalidArticleException e = assertThrows(InvalidArticleException.class, () -> {
 			
-			for (int i = 0; i < 255; i++) {
+			for (int i = 0; i < 254; i++) {
 				strBld.append("0");
 			}
 			artDto.setTitle("8 mock test");
