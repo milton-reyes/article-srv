@@ -2,8 +2,6 @@ name: CI/CD
 on:
   push:
     branches: [main]
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
 env:
   ATABEY_DB_NAME: ${{ secrets.ATABEY_DB_NAME }}
   ATABEY_DB_PORT: ${{ secrets.ATABEY_DB_PORT }}
