@@ -50,9 +50,9 @@ public class ContentController {
 		if (article.getTitle() == null || article.getValue() == null) {
 			throw new InvalidArticleException("Cannot leave empty.");
 		}
-		if (article.getContent().length() > 19999 || article.getRichtext().length() > 19999
-				|| article.getImg().length() > 254 || article.getTitle().length() > 254
-				|| article.getValue().length() > 254) {
+		if (article.getContent().length() > 19998 || article.getRichtext().length() > 19998
+				|| article.getImg().length() > 253 || article.getTitle().length() > 253
+				|| article.getValue().length() > 253) {
 			throw new InvalidArticleException("Exceding the maximum characters allowed.");
 		}
 
